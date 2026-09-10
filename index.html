@@ -1,460 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jenni Conner</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%23C4728A'/><stop offset='100%25' stop-color='%23E8A0B4'/></linearGradient></defs><circle cx='32' cy='32' r='32' fill='url(%23g)'/><text x='32' y='38' font-family='Sora,sans-serif' font-size='22' font-weight='600' fill='white' text-anchor='middle'>JC</text></svg>">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⏰</text></svg>">
+<title>Jenni Conner</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700&display=swap');
 
+  :root {
+    --bg: #f6f1e7;
+    --stroke: #26201a;
+    --c1: #e0217a; /* fuchsia */
+    --c2: #f2b705; /* golden yellow */
+    --c3: #2f86c9; /* cerulean */
+    --depth: #6b1e4f;
+  }
+
+  @media (prefers-color-scheme: dark) {
     :root {
-      --bg:          #0D0D0F;
-      --surface:     #131316;
-      --surface-2:   #1A1A1E;
-      --border:      rgba(255,255,255,0.07);
-      --border-2:    rgba(255,255,255,0.13);
-      --ink:         #F0EEF5;
-      --muted:       #7A7885;
-      --subtle:      #4A4855;
-      --accent:      #C4728A;
-      --accent-2:    #E8A0B4;
-      --accent-glow: rgba(196,114,138,0.12);
-      --green:       #6FCF97;
-      --mono: 'Geist Mono', 'Courier New', monospace;
-      --sans: 'Sora', sans-serif;
+      --bg: #1c1812;
+      --stroke: #f1e9da;
+      --c1: #f04d97;
+      --c2: #ffce3a;
+      --c3: #4ea3e0;
+      --depth: #8a3468;
     }
+  }
 
-    @media (prefers-color-scheme: light) {
-      :root {
-        --bg:          #F6F4F8;
-        --surface:     #FFFFFF;
-        --surface-2:   #EFECF4;
-        --border:      rgba(0,0,0,0.07);
-        --border-2:    rgba(0,0,0,0.13);
-        --ink:         #18141E;
-        --muted:       #68627A;
-        --subtle:      #AAA3BA;
-        --accent:      #A84560;
-        --accent-2:    #C4728A;
-        --accent-glow: rgba(168,69,96,0.08);
-        --green:       #2A7A50;
-      }
+  * { box-sizing: border-box; }
+
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+
+  body {
+    background: var(--bg);
+    overflow: hidden;
+    cursor: default;
+  }
+
+  #dvd {
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+    font-family: 'Fraunces', serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-size: clamp(2rem, 7vw, 4.5rem);
+    letter-spacing: -0.01em;
+    will-change: transform;
+    filter: drop-shadow(2px 4px 5px rgba(0, 0, 0, 0.25));
+  }
+
+  /* Solid offset back copy — a single clean duplicate behind the text,
+     the way classic WordArt built its 3D look. */
+  #dvd::before {
+    content: attr(data-text);
+    position: absolute;
+    top: 0.09em;
+    left: 0.05em;
+    z-index: 0;
+    color: var(--depth);
+    -webkit-text-stroke: 1.5px var(--depth);
+  }
+
+  #dvd .front {
+    position: relative;
+    z-index: 1;
+    background-image: linear-gradient(115deg, var(--grad-a, var(--c1)) 0%, var(--grad-b, var(--c2)) 50%, var(--grad-c, var(--c3)) 100%);
+    background-size: 140% 140%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--stroke);
+    paint-order: stroke fill;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #dvd {
+      position: relative;
+      display: block;
+      text-align: center;
+      margin-top: 42vh;
     }
-
-    html { scroll-behavior: smooth; }
-    body {
-      background: var(--bg);
-      color: var(--ink);
-      font-family: var(--sans);
-      font-weight: 300;
-      line-height: 1.6;
-      min-height: 100vh;
-    }
-
-    .layout {
-      display: grid;
-      grid-template-columns: 268px 1fr;
-      min-height: 100vh;
-      max-width: 1160px;
-      margin: 0 auto;
-    }
-
-    aside {
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      overflow-y: auto;
-      padding: 2.25rem 1.75rem;
-      border-right: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      gap: 1.75rem;
-    }
-
-    .avatar-row { display: flex; align-items: center; gap: 0.85rem; }
-
-    .avatar {
-      width: 44px; height: 44px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 600; font-size: 1rem; color: #fff; flex-shrink: 0;
-    }
-
-    .name { font-size: 0.95rem; font-weight: 600; color: var(--ink); }
-
-    .status-badge {
-      margin-top: 0.25rem; display: inline-flex; align-items: center; gap: 0.35rem;
-      font-family: var(--mono); font-size: 0.67rem; color: var(--muted);
-    }
-
-    .status-dot {
-      width: 5px; height: 5px; border-radius: 50%; background: var(--green);
-      animation: blink 2.5s ease-in-out infinite;
-    }
-
-    .nav-group { display: flex; flex-direction: column; gap: 0.1rem; }
-
-    .nav-label {
-      font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em;
-      text-transform: uppercase; color: var(--subtle); padding: 0 0.6rem; margin-bottom: 0.2rem;
-    }
-
-    .nav-group a {
-      display: flex; align-items: center; gap: 0.6rem; padding: 0.45rem 0.6rem;
-      border-radius: 7px; text-decoration: none; font-size: 0.83rem; color: var(--muted);
-      transition: background 0.15s, color 0.15s;
-    }
-
-    .nav-group a .ico { font-size: 0.75rem; width: 1rem; text-align: center; }
-    .nav-group a:hover, .nav-group a.active { background: var(--surface-2); color: var(--ink); }
-
-    .sidebar-bottom { margin-top: auto; display: flex; flex-direction: column; gap: 0.1rem; }
-
-    .aside-link {
-      display: flex; align-items: center; gap: 0.55rem; text-decoration: none;
-      font-family: var(--mono); font-size: 0.69rem; color: var(--muted);
-      padding: 0.4rem 0.6rem; border-radius: 6px;
-      transition: color 0.15s, background 0.15s;
-    }
-
-    .aside-link:hover { color: var(--accent-2); background: var(--surface-2); }
-
-    main { padding: 3rem 3.5rem 4rem; display: flex; flex-direction: column; gap: 5rem; }
-
-    .sec-head { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.75rem; }
-
-    .sec-tag {
-      font-family: var(--mono); font-size: 0.67rem; letter-spacing: 0.1em;
-      text-transform: uppercase; color: var(--accent); background: var(--accent-glow);
-      border: 1px solid rgba(196,114,138,0.18); border-radius: 4px; padding: 0.22rem 0.55rem;
-    }
-
-    .sec-line { flex: 1; height: 1px; background: var(--border); }
-
-    h2 { font-size: 1.45rem; font-weight: 500; letter-spacing: -0.02em; }
-
-    .hero { padding-top: 0.5rem; opacity: 0; animation: fadeUp 0.65s ease forwards 0.08s; }
-
-    .hero-eyebrow {
-      font-family: var(--mono); font-size: 0.7rem; color: var(--muted);
-      margin-bottom: 1.1rem; display: flex; align-items: center; gap: 0.45rem;
-    }
-    .hero-eyebrow::before { content: '//'; color: var(--accent); }
-
-    .hero h1 {
-      font-size: clamp(2rem, 3.8vw, 2.9rem); font-weight: 600;
-      letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 1.1rem;
-    }
-    .hero h1 .hi   { color: var(--ink); }
-    .hero h1 .verb { color: var(--accent); }
-
-    .hero-desc {
-      font-size: 0.95rem; color: var(--muted); max-width: 520px;
-      line-height: 1.8; margin-bottom: 1.75rem;
-    }
-
-    .chip-row { display: flex; flex-wrap: wrap; gap: 0.45rem; }
-
-    .chip {
-      background: var(--surface-2); border: 1px solid var(--border-2);
-      border-radius: 6px; padding: 0.28rem 0.65rem;
-      font-family: var(--mono); font-size: 0.72rem; color: var(--muted);
-      transition: border-color 0.2s, color 0.2s;
-    }
-    .chip:hover { border-color: var(--accent); color: var(--accent-2); }
-
-    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
-
-    .acard {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 12px; padding: 1.4rem; transition: border-color 0.2s;
-    }
-    .acard:hover { border-color: var(--border-2); }
-    .acard.full  { grid-column: span 2; }
-
-    .acard-label {
-      font-family: var(--mono); font-size: 0.63rem; letter-spacing: 0.1em;
-      text-transform: uppercase; color: var(--subtle); margin-bottom: 0.7rem;
-    }
-    .acard p { font-size: 0.88rem; color: var(--muted); line-height: 1.78; }
-
-    .chips-wrap { display: flex; flex-wrap: wrap; gap: 0.45rem; }
-
-    .int-chip {
-      background: var(--surface-2); border: 1px solid var(--border);
-      border-radius: 20px; padding: 0.28rem 0.7rem;
-      font-size: 0.77rem; color: var(--muted);
-    }
-
-    .jobs { display: flex; flex-direction: column; gap: 0.6rem; }
-
-    .job {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.25rem 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 1.5rem;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.2s;
-    }
-    .job.visible { opacity: 1; transform: translateY(0); }
-    .job:hover   { border-color: var(--border-2); }
-
-    .job-body { flex: 1; min-width: 0; }
-
-    .jtitle {
-      font-size: 0.95rem; font-weight: 500; color: var(--ink);
-      margin-bottom: 0.2rem; display: flex; align-items: center; gap: 0.5rem;
-    }
-    .jtitle::before {
-      content: ''; display: inline-block; width: 6px; height: 6px;
-      border-radius: 50%; background: var(--accent); flex-shrink: 0;
-    }
-
-    .jcompany {
-      font-family: var(--mono); font-size: 0.75rem; color: var(--accent);
-      margin-bottom: 0.55rem; padding-left: 1.1rem;
-    }
-
-    .jdesc { font-size: 0.84rem; color: var(--muted); line-height: 1.72; padding-left: 1.1rem; }
-
-    .jdate {
-      font-family: var(--mono); font-size: 0.66rem; color: var(--subtle);
-      background: var(--surface-2); border: 1px solid var(--border);
-      border-radius: 5px; padding: 0.22rem 0.55rem; white-space: nowrap; flex-shrink: 0;
-    }
-
-    .connect-card {
-      background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
-      padding: 2.25rem 2.5rem; display: flex; align-items: center;
-      justify-content: space-between; gap: 2rem; position: relative; overflow: hidden;
-    }
-    .connect-card::after {
-      content: ''; position: absolute; top: -90px; right: -90px;
-      width: 280px; height: 280px; border-radius: 50%;
-      background: var(--accent-glow); pointer-events: none;
-    }
-    .connect-card h2 { margin-bottom: 0.35rem; }
-    .connect-card p  { font-size: 0.86rem; color: var(--muted); max-width: 340px; }
-
-    .li-btn {
-      display: inline-flex; align-items: center; gap: 0.55rem;
-      background: var(--accent); color: #fff; padding: 0.7rem 1.35rem;
-      border-radius: 8px; text-decoration: none; font-size: 0.83rem; font-weight: 500;
-      white-space: nowrap; flex-shrink: 0; position: relative; z-index: 1;
-      transition: opacity 0.2s, transform 0.2s;
-    }
-    .li-btn:hover { opacity: 0.85; transform: translateY(-1px); }
-
-    footer {
-      border-top: 1px solid var(--border); padding-top: 1.5rem;
-      font-family: var(--mono); font-size: 0.68rem; color: var(--subtle);
-      display: flex; justify-content: space-between;
-    }
-    footer em { color: var(--accent); font-style: normal; }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(14px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50%       { opacity: 0.35; }
-    }
-
-    @media (max-width: 820px) {
-      .layout { grid-template-columns: 1fr; }
-      aside {
-        position: static; height: auto; flex-direction: row; flex-wrap: wrap;
-        align-items: center; justify-content: space-between;
-        padding: 1rem 1.5rem; border-right: none; border-bottom: 1px solid var(--border); gap: 0.75rem;
-      }
-      .sidebar-bottom { display: none; }
-      .nav-group { flex-direction: row; }
-      .nav-label { display: none; }
-      main { padding: 2rem 1.5rem 3rem; gap: 3.5rem; }
-      .about-grid { grid-template-columns: 1fr; }
-      .acard.full { grid-column: span 1; }
-      .connect-card { flex-direction: column; align-items: flex-start; }
-      .job { flex-direction: column; }
-      .jdate { align-self: flex-start; }
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
-<div class="layout">
+  <h1 id="dvd" data-text="coming soon!"><span class="front">coming soon!</span></h1>
+  <script>
+    const el = document.getElementById('dvd');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  <aside>
-    <div class="avatar-row">
-      <div class="avatar">JC</div>
-      <div>
-        <div class="name">Jenni Conner</div>
-        <div class="status-badge"><span class="status-dot"></span>Principal CSM · Atlassian</div>
-      </div>
-    </div>
+    // Palette permutations to cycle through on each wall hit, so the
+    // gradient reshuffles like the DVD logo changing color.
+    const palettes = [
+      ['var(--c1)', 'var(--c2)', 'var(--c3)'],
+      ['var(--c2)', 'var(--c3)', 'var(--c1)'],
+      ['var(--c3)', 'var(--c1)', 'var(--c2)'],
+      ['var(--c1)', 'var(--c3)', 'var(--c2)'],
+      ['var(--c2)', 'var(--c1)', 'var(--c3)'],
+      ['var(--c3)', 'var(--c2)', 'var(--c1)'],
+    ];
 
-    <div class="nav-group">
-      <p class="nav-label">Navigate</p>
-      <a href="#intro" class="active"><span class="ico">◈</span>Intro</a>
-      <a href="#about"><span class="ico">◉</span>About</a>
-      <a href="#experience"><span class="ico">◫</span>Experience</a>
-      <a href="#connect"><span class="ico">◎</span>Connect</a>
-    </div>
+    function cyclePalette() {
+      const p = palettes[Math.floor(Math.random() * palettes.length)];
+      el.style.setProperty('--grad-a', p[0]);
+      el.style.setProperty('--grad-b', p[1]);
+      el.style.setProperty('--grad-c', p[2]);
+    }
+    cyclePalette();
 
-    <div class="sidebar-bottom">
-      <p class="nav-label">Find me</p>
-      <a href="https://linkedin.com/in/jenni-conner" target="_blank" rel="noopener" class="aside-link">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-        linkedin
-      </a>
-      <a href="#" class="aside-link">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        Edinburgh, Scotland
-      </a>
-    </div>
-  </aside>
+    if (!reduceMotion) {
+      let x = Math.random() * (window.innerWidth * 0.5);
+      let y = Math.random() * (window.innerHeight * 0.5);
+      const speed = 2.4;
+      let angle = Math.random() * Math.PI * 2;
+      let vx = Math.cos(angle) * speed;
+      let vy = Math.sin(angle) * speed;
 
-  <main>
-
-    <section id="intro" class="hero">
-      <p class="hero-eyebrow">hello, welcome</p>
-      <h1>
-        <span class="hi">I'm Jenni.</span><br>
-        <span class="verb">I help teams succeed,</span><br>
-        at scale.
-      </h1>
-      <p class="hero-desc">
-        I'm a customer success leader with 7+ years in B2B SaaS, currently working as a Principal CSM at Atlassian in Edinburgh. I'm passionate about building great customer relationships, leading high-performing teams, and finding the intersection of data and human insight.
-      </p>
-      <div class="chip-row">
-        <span class="chip">Edinburgh, Scotland</span>
-        <span class="chip">Customer Success</span>
-        <span class="chip">Team Leadership</span>
-        <span class="chip">B2B SaaS</span>
-        <span class="chip">Retention &amp; Expansion</span>
-      </div>
-    </section>
-
-    <section id="about">
-      <div class="sec-head"><span class="sec-tag">about</span><div class="sec-line"></div></div>
-      <div class="about-grid">
-        <div class="acard full">
-          <p class="acard-label">Who I am</p>
-          <p>I'm a data-driven customer success leader — product and process nerd, really — with hands-on experience scaling B2B SaaS CS teams and collaborating cross-functionally in high-growth environments. I care deeply about people: nothing makes me happier than seeing team members thrive, and I work hard to ensure everyone feels valued, heard, and supported. I'm a big believer in radical candor — that ideal blend of caring deeply and challenging directly.</p>
-        </div>
-        <div class="acard">
-          <p class="acard-label">Outside of work</p>
-          <p>You'll find me travelling, exploring the outdoors, sipping home-brewed coffee, and connecting with friends and family. I'm also a keen scuba diver, photographer, and have a soft spot for a good sewing project.</p>
-        </div>
-        <div class="acard">
-          <p class="acard-label">Interests &amp; skills</p>
-          <div class="chips-wrap">
-            <span class="int-chip">🤿 Scuba diving</span>
-            <span class="int-chip">📷 Photography</span>
-            <span class="int-chip">🧵 Sewing</span>
-            <span class="int-chip">🍳 Cooking</span>
-            <span class="int-chip">✈️ Travelling</span>
-            <span class="int-chip">🌿 Bonsai</span>
-            <span class="int-chip">🗣️ Spanish</span>
-            <span class="int-chip">💻 HTML / CSS / JS</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="experience">
-      <div class="sec-head"><span class="sec-tag">experience</span><div class="sec-line"></div></div>
-      <div class="jobs">
-
-        <div class="job">
-          <div class="job-body">
-            <div class="jtitle">Principal Customer Success Manager</div>
-            <div class="jcompany">Atlassian</div>
-            <p class="jdesc">Returning to the frontlines as a Principal CSM at Atlassian, Edinburgh — helping customers unlock the full potential of the Atlassian suite and driving meaningful adoption and outcomes at scale.</p>
-          </div>
-          <div class="jdate">Mar 2026 — now</div>
-        </div>
-
-        <div class="job">
-          <div class="job-body">
-            <div class="jtitle">Director, Customer Success &amp; Renewals — APAC &amp; EMEA</div>
-            <div class="jcompany">UserTesting</div>
-            <p class="jdesc">Led a team of 14 CSMs across 5 countries, responsible for a $41M portfolio spanning Fortune 50, Enterprise, and Midmarket customers (e.g. Spotify, Volkswagen, HSBC). Relocated from Austin to Edinburgh in 2022 to lead the EMEA &amp; APAC region. Awarded CS Leader of the Year in both 2022 (top NRR) and 2023 (top GRR).</p>
-          </div>
-          <div class="jdate">Jun 2021 — Mar 2026</div>
-        </div>
-
-        <div class="job">
-          <div class="job-body">
-            <div class="jtitle">Manager, Midmarket Customer Success</div>
-            <div class="jcompany">Dialpad</div>
-            <p class="jdesc">Managed 8 CSMs responsible for a $26M portfolio. Supported the team through 50+ renewal negotiations during COVID impact in 2020, maintaining 99% gross retention. Previously served as Senior Enterprise CSM managing a $7.2M portfolio of top global accounts — achieving 100% GRR — and received the Founders' Award (Clara Barton) for taking on big challenges and driving positive change.</p>
-          </div>
-          <div class="jdate">Aug 2018 — Jun 2021</div>
-        </div>
-
-        <div class="job">
-          <div class="job-body">
-            <div class="jtitle">Chief Operating Officer</div>
-            <div class="jcompany">Codeup</div>
-            <p class="jdesc">Ran operations and admissions at Codeup, a coding bootcamp in San Antonio. Also completed Codeup's Frontend Web Development programme (HTML, CSS, JS, WordPress).</p>
-          </div>
-          <div class="jdate">Aug 2014 — Jul 2016</div>
-        </div>
-
-      </div>
-    </section>
-
-    <section id="connect">
-      <div class="sec-head"><span class="sec-tag">connect</span><div class="sec-line"></div></div>
-      <div class="connect-card">
-        <div>
-          <h2>Let's connect.</h2>
-          <p>Whether it's a project, a question, or just a friendly hello — I'd love to hear from you.</p>
-        </div>
-        <a href="https://linkedin.com/in/jenni-conner" target="_blank" rel="noopener" class="li-btn">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-          View LinkedIn
-        </a>
-      </div>
-    </section>
-
-    <footer>
-      <em>jenniconner.com</em>
-      <span>Edinburgh · Scotland · <em>2026</em></span>
-    </footer>
-
-  </main>
-</div>
-
-<script>
-  const jobs = document.querySelectorAll('.job');
-  const jobObs = new IntersectionObserver(
-    entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
-    { threshold: 0.1 }
-  );
-  jobs.forEach(j => jobObs.observe(j));
-
-  const sections = document.querySelectorAll('section[id]');
-  const links    = document.querySelectorAll('.nav-group a');
-  const navObs   = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        links.forEach(l => l.classList.remove('active'));
-        const a = document.querySelector('.nav-group a[href="#' + e.target.id + '"]');
-        if (a) a.classList.add('active');
+      function bounds() {
+        const rect = el.getBoundingClientRect();
+        return {
+          w: rect.width,
+          h: rect.height,
+          maxX: window.innerWidth - rect.width,
+          maxY: window.innerHeight - rect.height,
+        };
       }
-    });
-  }, { rootMargin: '-40% 0px -55% 0px' });
-  sections.forEach(s => navObs.observe(s));
-</script>
+
+      let b = bounds();
+      window.addEventListener('resize', () => {
+        b = bounds();
+        x = Math.min(x, Math.max(0, b.maxX));
+        y = Math.min(y, Math.max(0, b.maxY));
+      });
+
+      // Small random jitter added to the bounce angle, so it drifts unpredictably
+      // like a real DVD logo instead of tracing the exact same path forever.
+      function jitter(v) {
+        return v + (Math.random() - 0.5) * 0.6;
+      }
+
+      function tick() {
+        x += vx;
+        y += vy;
+
+        let hit = false;
+
+        if (x <= 0) {
+          x = 0;
+          vx = Math.abs(jitter(vx));
+          hit = true;
+        } else if (x >= b.maxX) {
+          x = b.maxX;
+          vx = -Math.abs(jitter(vx));
+          hit = true;
+        }
+
+        if (y <= 0) {
+          y = 0;
+          vy = Math.abs(jitter(vy));
+          hit = true;
+        } else if (y >= b.maxY) {
+          y = b.maxY;
+          vy = -Math.abs(jitter(vy));
+          hit = true;
+        }
+
+        // Keep speed roughly constant even after jitter.
+        const mag = Math.hypot(vx, vy) || speed;
+        vx = (vx / mag) * speed;
+        vy = (vy / mag) * speed;
+
+        if (hit) cyclePalette();
+
+        el.style.transform = `translate(${x}px, ${y}px)`;
+        requestAnimationFrame(tick);
+      }
+
+      // Recompute bounds once layout/fonts settle, then start.
+      requestAnimationFrame(() => {
+        b = bounds();
+        tick();
+      });
+    }
+  </script>
 </body>
 </html>
