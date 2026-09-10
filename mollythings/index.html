@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>30 Mollythings</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream: #FFF8EF;
+    --cream-2: #FFF1DF;
+    --plum: #4A3B52;
+    --plum-soft: #7A6A82;
+    --blush: #FFD3DC;
+    --mint: #BFEFDA;
+    --butter: #FFE7A0;
+    --lavender: #E2D3F7;
+    --sky: #CFE8FA;
+    --coral: #8C4FE0;
+  }
+
+  *{ box-sizing: border-box; }
+
+  html, body{
+    margin: 0;
+    padding: 0;
+    background: var(--cream);
+    color: var(--plum);
+    font-family: 'Nunito', sans-serif;
+    overflow-x: hidden;
+  }
+
+  body{
+    background: var(--lavender);
+    min-height: 100vh;
+  }
+
+  .wrap{
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 20px 80px;
+  }
+
+  header{
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  .eyebrow-count{
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--plum-soft);
+    letter-spacing: 0.02em;
+    margin-bottom: 6px;
+  }
+
+  .eyebrow-count span{
+    color: var(--coral);
+    font-weight: 800;
+  }
+
+  h1{
+    font-family: 'Baloo 2', cursive;
+    font-weight: 800;
+    font-size: clamp(2.6rem, 10vw, 5rem);
+    line-height: 0.95;
+    margin: 0.1em 0 0.25em;
+    color: var(--plum);
+    text-shadow: 3px 3px 0 var(--butter);
+  }
+
+  .subline{
+    font-size: 0.4em;
+    color: var(--coral);
+    -webkit-text-stroke: 0;
+    text-shadow: none;
+    display: inline-block;
+    margin-top: 0.15em;
+  }
+
+  .definition{
+    max-width: 480px;
+    margin: 0 auto;
+    font-style: italic;
+    font-size: 1.05rem;
+    line-height: 1.55;
+    color: var(--plum-soft);
+  }
+
+  .progress-track{
+    max-width: 320px;
+    margin: 22px auto 0;
+    height: 10px;
+    border-radius: 999px;
+    background: var(--cream-2);
+    border: 1.5px solid #EEDFC7;
+    overflow: hidden;
+  }
+
+  .progress-fill{
+    height: 100%;
+    background: linear-gradient(90deg, var(--cream), var(--coral));
+    border-radius: 999px;
+    transition: width 0.5s cubic-bezier(.34,1.56,.64,1);
+    width: 0%;
+  }
+
+  .field{
+    margin-top: 60px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+    gap: 22px 16px;
+    align-items: start;
+  }
+
+  @media (min-width: 640px){
+    .field{
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 30px 20px;
+    }
+  }
+
+  .item{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: inherit;
+    animation: bob 5s ease-in-out infinite;
+  }
+
+  .item:nth-child(odd){ animation-duration: 6s; }
+  .item:nth-child(3n){ animation-duration: 4.4s; }
+  .item:nth-child(5n){ animation-delay: -1.2s; }
+  .item:nth-child(7n){ animation-delay: -2.6s; }
+
+  @keyframes bob{
+    0%, 100% { transform: translateY(0) rotate(var(--tilt, 0deg)); }
+    50% { transform: translateY(-8px) rotate(var(--tilt, 0deg)); }
+  }
+
+  .bubble{
+    width: 78px;
+    height: 78px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.9rem;
+    position: relative;
+    box-shadow: 0 6px 14px rgba(74, 59, 82, 0.12);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 3px solid transparent;
+  }
+
+  @media (min-width: 640px){
+    .bubble{ width: 92px; height: 92px; font-size: 2.2rem; }
+  }
+
+  .item:hover .bubble{
+    transform: scale(1.06);
+    box-shadow: 0 8px 18px rgba(74, 59, 82, 0.18);
+  }
+
+  .item:focus-visible .bubble{
+    outline: 3px solid var(--plum);
+    outline-offset: 3px;
+  }
+
+  .number{
+    margin-top: 8px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--plum-soft);
+  }
+
+  .item.found .bubble{
+    border-color: var(--coral);
+    box-shadow: 0 0 0 4px rgba(255, 140, 116, 0.18), 0 6px 14px rgba(74, 59, 82, 0.12);
+  }
+
+  .item.found .number{
+    color: var(--coral);
+  }
+
+  .item::after{
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-4px);
+    background: var(--plum);
+    color: var(--cream);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1.3;
+    padding: 7px 11px;
+    border-radius: 10px;
+    width: max-content;
+    max-width: 180px;
+    white-space: normal;
+    text-align: center;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    z-index: 15;
+  }
+
+  .item:hover::after,
+  .item:focus-visible::after{
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(-9px);
+  }
+
+  .found-ring{
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    border: 2.5px dashed var(--coral);
+    opacity: 0;
+    transform: scale(0.7);
+    transition: opacity 0.3s ease, transform 0.35s cubic-bezier(.34,1.56,.64,1);
+    pointer-events: none;
+  }
+
+  .item.found .found-ring{
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .link-badge{
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--cream);
+    border: 2px solid var(--coral);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    text-decoration: none;
+    box-shadow: 0 2px 6px rgba(74, 59, 82, 0.18);
+    transition: transform 0.15s ease;
+  }
+
+  .link-badge:hover{
+    transform: scale(1.15);
+  }
+
+  .placeholder-note{
+    text-align: center;
+    margin: 14px auto 0;
+    font-size: 0.88rem;
+    color: var(--plum-soft);
+    font-style: italic;
+  }
+
+  footer{
+    text-align: center;
+    margin-top: 50px;
+    font-size: 0.85rem;
+    color: var(--plum-soft);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .item{ animation: none; }
+  }
+
+  .celebration{
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(74, 59, 82, 0.28);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+    z-index: 20;
+    padding: 20px;
+  }
+
+  .celebration.show{
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .celebration-card{
+    background: var(--cream);
+    border-radius: 28px;
+    padding: 40px 32px;
+    text-align: center;
+    max-width: 360px;
+    box-shadow: 0 20px 40px rgba(74, 59, 82, 0.25);
+    transform: scale(0.85);
+    transition: transform 0.35s cubic-bezier(.34,1.56,.64,1);
+  }
+
+  .celebration.show .celebration-card{
+    transform: scale(1);
+  }
+
+  .celebration-card h2{
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.9rem;
+    margin: 0 0 10px;
+    color: var(--plum);
+  }
+
+  .celebration-card p{
+    margin: 0 0 22px;
+    color: var(--plum-soft);
+    line-height: 1.5;
+  }
+
+  .celebration-card button{
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    background: var(--coral);
+    color: white;
+    border: none;
+    padding: 12px 26px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+  }
+
+  .celebration-card button:hover{
+    transform: scale(1.05);
+  }
+
+  .confetti-layer{
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 25;
+  }
+
+  .confetti-piece{
+    position: absolute;
+    top: -20px;
+    border-radius: 2px;
+    opacity: 0;
+    animation-name: confetti-fall;
+    animation-timing-function: cubic-bezier(.25,.46,.45,.94);
+    animation-fill-mode: forwards;
+  }
+
+  @keyframes confetti-fall{
+    0%{
+      transform: translate(0, 0) rotate(0deg);
+      opacity: 1;
+    }
+    85%{
+      opacity: 1;
+    }
+    100%{
+      transform: translate(var(--drift), 105vh) rotate(var(--spin));
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .confetti-piece{ animation: none; display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow-count" id="countLabel"><span id="foundCount">0</span> of 30 have arrived</div>
+    <h1>30 Mollythings&trade;<br><span class="subline">for your 30th birthday!</span></h1>
+    <p class="definition"><strong>Mollythings&trade; Definition:</strong> whimsical yet practical items, often small and adorable in nature. Commonly featuring furry animals and fun colors.</p>
+    <p class="placeholder-note">Tap a gift once it arrives in the mail to circle it!</p>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  </header>
+
+  <div class="field" id="field"></div>
+
+  <footer>Made with ❤️ in Edinburgh</footer>
+</div>
+
+<div class="confetti-layer" id="confettiLayer"></div>
+
+<div class="celebration" id="celebration">
+  <div class="celebration-card">
+    <h2>All 30, found! 🎉</h2>
+    <p>Happy 30th birthday! Every last Mollything&trade; has made it to you.</p>
+    <button id="celebrationClose">Yay!</button>
+  </div>
+</div>
+
+<script>
+  const SUPABASE_URL = 'https://nmtfzevldznhxkgvkbfa.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_rXfkV1CpKc3x_TUaJHVvfg_1Db3lYLv';
+  const TOTAL = 30;
+  const items = [
+    { name: "The Little Frog's Guide to Life by Maybell Eequay", emoji: '🐸', url: null },
+    { name: 'Space Opera by Catherynne M. Valente', emoji: '🌌', url: null },
+    { name: 'Antique Encyclopedia of Needlework by TH. De Dillmont', emoji: '📔', url: null },
+    { name: 'Kingcole Cottagespun Chunky Acrylic Yarn', emoji: '🧶', url: 'https://www.bromefields.com/free-easy-shawl-knitting-pattern/#Pattern-Instructions' },
+    { name: 'Kknekki Hair Bands', emoji: '💁‍♀️', url: null },
+    { name: 'Studio Wald Pocket Flower Press', emoji: '🥀', url: null },
+    { name: 'Matchy Matchy Sewing Club Garment Labels', emoji: '🪡', url: null },
+    { name: 'Kidoki Juicy Orange Fruit Squishy', emoji: '🍊', url: null },
+    { name: 'LuxeClawShop Blue Marble Clip', emoji: '🌊', url: null },
+    { name: 'Black Forest Organic Gummy Forest Friends', emoji: '🧸', url: null },
+    { name: 'GF Oreos and Chips Ahoy!', emoji: '🍪', url: null },
+    { name: 'Sugar Plum Clay Studio Little Rock Desk Buddy', emoji: '🪨', url: null },
+    { name: 'Sugar Plum Clay Studio Party Axolotl Desk Buddy', emoji: '🦎', url: null },
+    { name: 'Antica Legatoria Ofer Marbled Journal', emoji: '🌀', url: null },
+    { name: 'Rosevear Tea Evening Chai Tin (tea coming soon!)', emoji: '🫖', url: 'https://roseveartea.co.uk/product/evening-chai-roseveartea/' },
+    { name: 'Powder Design Puffin Socks', emoji: '🧦', url: null },
+    { name: 'Noodoll Ricemonster', emoji: '🐼', url: null },
+    { name: 'Space Oddity by Catherynne M. Valente', emoji: '🌌', url: null },
+    { name: 'Petra Boase Pink Retro Tape Measure Bookmark', emoji: '📏', url: null },
+    { name: 'ARK Colour Design Dolls House Leather Bookmark', emoji: '🏠', url: null },
+    { name: 'Brie Harrison Haberdashery Card', emoji: '✂️', url: null },
+    { name: 'The Art File Storybook Card', emoji: '📘', url: null },
+    { name: 'Abstract No. 1 by Henry Conner', emoji: '👦', url: 'henry-thumbs-up.JPG' },
+    { name: 'Elephant Claw Clip', emoji: '🐘', url: null },
+    { name: 'Legami Milano Llama Pen', emoji: '🦙', url: null },
+    { name: 'By Ha Strawberry Print', emoji: '🍓', url: null },
+    { name: 'Eve Tong Neon Edinburgh Print', emoji: '🏴󠁧󠁢󠁳󠁣󠁴󠁿', url: null },
+    { name: 'Legami Milano Rainbow Cloud Magnetic Clip', emoji: '🌈', url: null },
+    { name: 'By Ha Dandelion Frog Sticker', emoji: '🌼', url: null },
+    { name: 'Wild Pencil Tiny Landscapes Stickers', emoji: '🏞️', url: null }
+  ];
+
+  const field = document.getElementById('field');
+  const foundCountEl = document.getElementById('foundCount');
+  const progressFill = document.getElementById('progressFill');
+  const celebration = document.getElementById('celebration');
+  const celebrationClose = document.getElementById('celebrationClose');
+  const confettiLayer = document.getElementById('confettiLayer');
+
+  let state = {};
+  let hasCelebrated = false;
+
+  celebrationClose.addEventListener('click', () => {
+    celebration.classList.remove('show');
+  });
+
+  const itemEls = {};
+
+  function render(){
+    field.innerHTML = '';
+    for(let i = 1; i <= TOTAL; i++){
+      const data = items[i - 1];
+
+      const btn = document.createElement('div');
+      btn.className = 'item' + (state[i] ? ' found' : '');
+      btn.setAttribute('role', 'button');
+      btn.setAttribute('tabindex', '0');
+      btn.setAttribute('aria-pressed', state[i] ? 'true' : 'false');
+      btn.setAttribute('title', data.name);
+      btn.setAttribute('data-tooltip', data.name);
+      btn.setAttribute('aria-label', data.name + (state[i] ? ', arrived' : ', not yet arrived'));
+      btn.style.setProperty('--tilt', ((i % 5) - 2) * 2.2 + 'deg');
+      btn.dataset.id = i;
+
+      const bg = 'var(--lavender)';
+
+      const linkBadge = data.url
+        ? `<a class="link-badge" href="${data.url}" target="_blank" rel="noopener" title="Visit product page" aria-label="Open product page for ${data.name}">🔗</a>`
+        : '';
+
+      btn.innerHTML = `
+        <span class="bubble" style="background:${bg}">
+          <span class="found-ring"></span>
+          ${data.emoji}
+          ${linkBadge}
+        </span>
+        <span class="number">${i}</span>
+      `;
+
+      const badgeEl = btn.querySelector('.link-badge');
+      if(badgeEl){
+        badgeEl.addEventListener('click', (e) => e.stopPropagation());
+      }
+
+      btn.addEventListener('click', () => toggle(i));
+      btn.addEventListener('keydown', (e) => {
+        if(e.key === 'Enter' || e.key === ' '){
+          e.preventDefault();
+          toggle(i);
+        }
+      });
+      itemEls[i] = btn;
+      field.appendChild(btn);
+    }
+    updateProgress();
+  }
+
+  function updateItemVisual(id){
+    const btn = itemEls[id];
+    if(!btn) return;
+    const found = !!state[id];
+    const data = items[id - 1];
+    btn.classList.toggle('found', found);
+    btn.setAttribute('aria-pressed', found ? 'true' : 'false');
+    btn.setAttribute('aria-label', data.name + (found ? ', arrived' : ', not yet arrived'));
+  }
+
+  function updateProgress(){
+    const count = Object.values(state).filter(Boolean).length;
+    foundCountEl.textContent = count;
+    progressFill.style.width = (count / TOTAL * 100) + '%';
+  }
+
+  async function toggle(id){
+    const newValue = !state[id];
+    state[id] = newValue;
+    updateItemVisual(id);
+    updateProgress();
+
+    const count = Object.values(state).filter(Boolean).length;
+    if(count === TOTAL && !hasCelebrated){
+      hasCelebrated = true;
+      celebrate();
+    }
+
+    try{
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/mollythings?id=eq.${id}`, {
+        method: 'PATCH',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({ found: newValue })
+      });
+      if(!res.ok) throw new Error('Save failed: ' + res.status);
+    }catch(e){
+      console.error('Could not save state', e);
+    }
+  }
+
+  function celebrate(){
+    celebration.classList.add('show');
+    launchConfetti();
+  }
+
+  function launchConfetti(){
+    const colors = ['#FF8C74', '#FFE7A0', '#BFEFDA', '#E2D3F7', '#CFE8FA', '#4A3B52'];
+    const pieceCount = 140;
+
+    for(let i = 0; i < pieceCount; i++){
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+
+      const size = 6 + Math.random() * 8;
+      const isCircle = Math.random() > 0.5;
+      const left = Math.random() * 100;
+      const drift = (Math.random() * 200 - 100) + 'px';
+      const spin = (Math.random() * 720 - 360) + 'deg';
+      const duration = 2.6 + Math.random() * 1.6;
+      const delay = Math.random() * 0.9;
+      const color = colors[Math.floor(Math.random() * colors.length)];
+
+      piece.style.left = left + '%';
+      piece.style.width = size + 'px';
+      piece.style.height = (isCircle ? size : size * 0.6) + 'px';
+      piece.style.background = color;
+      piece.style.borderRadius = isCircle ? '50%' : '2px';
+      piece.style.setProperty('--drift', drift);
+      piece.style.setProperty('--spin', spin);
+      piece.style.animationDuration = duration + 's';
+      piece.style.animationDelay = delay + 's';
+
+      piece.addEventListener('animationend', () => piece.remove());
+      confettiLayer.appendChild(piece);
+    }
+  }
+
+  async function load(){
+    try{
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/mollythings?select=id,found&order=id`, {
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`
+        }
+      });
+      if(res.ok){
+        const rows = await res.json();
+        rows.forEach(row => { state[row.id] = row.found; });
+        if(rows.length && rows.every(row => row.found)){
+          hasCelebrated = true;
+        }
+      }
+    }catch(e){
+      // no saved state reachable yet, start fresh
+    }
+    render();
+  }
+
+  load();
+</script>
+
+</body>
+</html>
