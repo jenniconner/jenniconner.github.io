@@ -21,10 +21,10 @@ const DOOBY_SOUNDS = [
 // Your own image files (put them in the images/ folder).
 // If none load, the page falls back to emoji so you can still test it.
 const IMAGES = [
-  "images/scooby1.png",
-  "images/scooby2.png",
-  "images/scooby3.png",
-  "images/scooby4.png",
+  "images/scooby-body.png",
+  "images/scooby-crew.png",
+  "images/scooby-face.png",
+  "images/scooby-van.png",
 ];
 
 const FALLBACK_EMOJI = ["🐾", "🦴", "👻", "🔦", "🍔"];
