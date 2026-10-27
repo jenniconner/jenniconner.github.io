@@ -1,0 +1,143 @@
+:root {
+  --mystery-teal: #19b5a5;
+  --mystery-green: #7ac943;
+  --velma-orange: #f7931e;
+  --daphne-purple: #5b2a86;
+  --night: #1b0f33;
+  --collar: #00a99d;
+  --tag: #ffd23f;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: "Luckiest Guy", "Comic Sans MS", cursive;
+  color: #fff;
+  background:
+    radial-gradient(circle at 50% 120%, var(--mystery-teal) 0, transparent 45%),
+    radial-gradient(circle at 20% 10%, rgba(255,255,255,.08) 0, transparent 25%),
+    linear-gradient(160deg, var(--daphne-purple), var(--night));
+}
+
+main {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 1rem;
+  text-align: center;
+}
+
+h1 {
+  font-family: "Creepster", cursive;
+  font-weight: 400;
+  font-size: clamp(3rem, 12vw, 8rem);
+  margin: 0;
+  letter-spacing: .04em;
+  color: var(--mystery-green);
+  text-shadow:
+    4px 4px 0 var(--daphne-purple),
+    8px 8px 0 rgba(0,0,0,.35);
+}
+
+.hint {
+  margin: 0;
+  font-size: 1.1rem;
+  letter-spacing: .06em;
+  color: var(--tag);
+}
+
+kbd {
+  background: var(--tag);
+  color: var(--night);
+  padding: .1em .45em;
+  border-radius: .3em;
+}
+
+.buttons {
+  width: min(900px, 100%);
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.btn {
+  font-family: inherit;
+  font-size: clamp(1.8rem, 6vw, 3.5rem);
+  letter-spacing: .05em;
+  padding: .6em 1em;
+  border: 5px solid var(--night);
+  border-radius: 1.2rem;
+  cursor: pointer;
+  color: #fff;
+  text-shadow: 3px 3px 0 rgba(0,0,0,.4);
+  box-shadow: 0 8px 0 var(--night), 0 14px 20px rgba(0,0,0,.4);
+  transition: transform .08s, box-shadow .08s;
+  display: flex;
+  align-items: center;
+  gap: .5em;
+}
+
+.btn.scooby { background: var(--velma-orange); }
+.btn.dooby  { background: var(--collar); }
+
+.btn:hover { filter: brightness(1.08); }
+
+.btn.pressed,
+.btn:active {
+  transform: translateY(6px);
+  box-shadow: 0 2px 0 var(--night), 0 6px 10px rgba(0,0,0,.4);
+}
+
+.key {
+  font-size: .45em;
+  background: var(--tag);
+  color: var(--night);
+  border-radius: 50%;
+  width: 1.9em;
+  height: 1.9em;
+  display: inline-grid;
+  place-items: center;
+  text-shadow: none;
+}
+
+#burst {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.sprite {
+  position: absolute;
+  width: 110px;
+  height: 110px;
+  display: grid;
+  place-items: center;
+  font-size: 80px;
+  line-height: 1;
+  will-change: transform;
+}
+
+.sprite img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+@media (max-width: 520px) {
+  .buttons { flex-direction: column; align-items: stretch; }
+  .btn { justify-content: center; }
+}
